@@ -1,0 +1,1 @@
+"""Stock sentiment predictor package."""
