@@ -42,94 +42,41 @@ brew install libomp
 
 ## 🎯 Quick Start
 
-### 1. Train Models
-
-```bash
-# Train a model for a single stock
-python -c "from src.models.training_pipeline import TrainingPipeline; TrainingPipeline(['AAPL']).train_model('AAPL')"
-
-# Train models for multiple stocks
-python -c "from src.models.training_pipeline import TrainingPipeline; TrainingPipeline(['AAPL', 'TSLA', 'GOOGL']).train_all()"
-```
-
-### 2. Run Dashboard
+### 1. Run Dashboard
 
 ```bash
 streamlit run src/api/simple_dashboard.py
 ```
 
-### 3. Run API Server
+### 2. Train Models
 
 ```bash
-uvicorn src.api.main:app --reload --port 8000
+# Train a model for a single stock
+python -c "from src.models.training_pipeline import TrainingPipeline; TrainingPipeline(['AAPL']).train_model('AAPL')"
 ```
 
 ## 🏗️ Architecture
+
+The project is structured to separate concerns, from data ingestion to model deployment.
 
 ```
 stock-sentiment-predictor/
 ├── src/
 │   ├── data/
-│   │   ├── ingestion.py           # Historical data fetching
-│   │   └── live_api.py            # Live data + NewsAPI
 │   ├── sentiment/
-│   │   └── processors.py          # VADER sentiment analysis
 │   ├── numerical/
-│   │   └── features.py            # Technical indicators
 │   ├── models/
-│   │   ├── trainer.py             # Model training logic
-│   │   ├── predictor.py           # Prediction logic
-│   │   └── training_pipeline.py   # Full training pipeline
 │   ├── utils/
-│   │   └── report_generator.py    # Advanced ML components
 │   ├── backtest/
-│   │   └── strategy.py            # Trading strategy backtesting
 │   └── api/
-│       ├── simple_dashboard.py    # Streamlit dashboard
-│       └── main.py                # FastAPI server
-├── models/                         # Saved trained models
-└── reports/                        # Generated PDF/Markdown reports
-```
-
-## 🤖 Models Implemented
-
-### Traditional ML
-- **Random Forest**: Ensemble of decision trees.
-- **XGBoost**: Efficient gradient boosting.
-- **Ridge Regression**: Linear model with L2 regularization.
-
-### Ensemble & Adaptive Systems
-- **Heterogeneous Stacking**: RF + XGBoost + Ridge fed into a meta-learner.
-- **Uncertainty Quantification**: Quantile regression for confidence intervals.
-- **Market Regime Detection**: HMM-based adaptive models.
-- **Sentiment Weighting**: Dynamic feature importance based on news volume.
-
-### Deep Learning (PyTorch)
-- **LSTM**: Bidirectional LSTM for capturing sequential patterns.
-- **Transformer**: Multi-head attention mechanism for time-series.
-- **Temporal Fusion Transformer (TFT)**: Advanced architecture combining LSTM and attention.
-
-## 🧪 Testing
-
-A comprehensive test suite is included to ensure all components work correctly.
-
-```bash
-# Run all tests
-python src/utils/report_generator.py
+├── models/
+└── reports/
 ```
 
 ## ⚠️ Disclaimer
 
-This project is for educational and research purposes only. Financial markets are volatile and unpredictable. Do not use this system for actual trading without extensive validation and professional advice.
+This project is for educational and research purposes only. Do not use this system for actual trading without extensive validation and professional advice.
 
 ## 📄 License
 
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
-## 🤝 Contributing
-
-Contributions are welcome! Please fork the repository and open a pull request.
-
-## 📧 Contact
-
-For questions or collaborations, please open an issue on GitHub.
+This project is licensed under the MIT License.
