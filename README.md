@@ -1,35 +1,54 @@
 # 📈 Stock Sentiment Predictor
 
-A machine learning-powered stock prediction system that combines technical analysis with sentiment analysis from news data.
+An advanced machine learning system for stock price prediction that combines **technical analysis**, **sentiment analysis**, and **state-of-the-art deep learning** models.
 
-## Features
+![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+![Status](https://img.shields.io/badge/status-production-success.svg)
 
-- 📊 **Real-time stock data** via yfinance
-- 📰 **News sentiment analysis** using NewsAPI
-- 🤖 **ML predictions** with Random Forest
+## 🚀 Features
+
+### Core Capabilities
+- 📊 **Real-time stock data** via yfinance API
+- 📰 **News sentiment analysis** using NewsAPI + VADER
+- 🤖 **Multiple ML models**: Random Forest, XGBoost, LSTM, Transformer
 - 📈 **Interactive dashboard** built with Streamlit
-- 🔄 **Backtesting** trading strategies
-- 📊 **Automated reports** generation
+- 🔄 **Backtesting framework** with trading strategy simulation
+- 📄 **Automated PDF/Markdown reports**
 
-## Installation
+### Advanced ML Components
+- 🎯 **Heterogeneous Ensemble**: Combines Random Forest + XGBoost + Ridge with a meta-learner.
+- 📉 **Uncertainty Quantification**: Provides confidence intervals using quantile regression.
+- 🔀 **Market Regime Detection**: Uses HMM-based adaptive models for different market conditions.
+- 💬 **Sentiment-Adaptive Weighting**: Dynamically adjusts feature weights based on news volume.
+- 🧠 **Deep Learning Models**: Includes LSTM, Transformer, and Temporal Fusion Transformer (TFT).
+
+## 📦 Installation
 
 ```bash
-# Clone the repository
+git clone https://github.com/Akhilesh-0529/stock-sentiment-predictor.git
 cd stock-sentiment-predictor
 
-# Create virtual environment
+# Create and activate virtual environment
 python -m venv .venv
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
+
+# For Mac users, install OpenMP for XGBoost
+brew install libomp
 ```
 
-## Quick Start
+## 🎯 Quick Start
 
-### 1. Train a Model
+### 1. Train Models
 
 ```bash
+# Train a model for a single stock
+python -c "from src.models.training_pipeline import TrainingPipeline; TrainingPipeline(['AAPL']).train_model('AAPL')"
+
+# Train models for multiple stocks
 python -c "from src.models.training_pipeline import TrainingPipeline; TrainingPipeline(['AAPL', 'TSLA', 'GOOGL']).train_all()"
 ```
 
@@ -45,153 +64,72 @@ streamlit run src/api/simple_dashboard.py
 uvicorn src.api.main:app --reload --port 8000
 ```
 
-## Project Structure
+## 🏗️ Architecture
 
 ```
 stock-sentiment-predictor/
 ├── src/
 │   ├── data/
-│   │   ├── ingestion.py          # Data fetching
-│   │   └── live_api.py           # Live data & news API
+│   │   ├── ingestion.py           # Historical data fetching
+│   │   └── live_api.py            # Live data + NewsAPI
 │   ├── sentiment/
-│   │   └── processors.py         # Sentiment analysis
+│   │   └── processors.py          # VADER sentiment analysis
 │   ├── numerical/
-│   │   └── features.py           # Technical indicators
+│   │   └── features.py            # Technical indicators
 │   ├── models/
-│   │   ├── trainer.py            # Model training
-│   │   ├── predictor.py          # Predictions
-│   │   └── training_pipeline.py  # Full training pipeline
+│   │   ├── trainer.py             # Model training logic
+│   │   ├── predictor.py           # Prediction logic
+│   │   └── training_pipeline.py   # Full training pipeline
+│   ├── utils/
+│   │   └── report_generator.py    # Advanced ML components
 │   ├── backtest/
-│   │   └── strategy.py           # Trading strategy backtesting
+│   │   └── strategy.py            # Trading strategy backtesting
 │   └── api/
-│       ├── simple_dashboard.py   # Streamlit dashboard
-│       ├── enhanced_dashboard.py # Full-featured dashboard
-│       └── main.py               # FastAPI server
-├── models/                        # Trained models
-├── requirements.txt
-└── README.md
+│       ├── simple_dashboard.py    # Streamlit dashboard
+│       └── main.py                # FastAPI server
+├── models/                         # Saved trained models
+└── reports/                        # Generated PDF/Markdown reports
 ```
 
-## Technical Features
+## 🤖 Models Implemented
 
-The system generates 6 technical features:
-- **return**: Price return
-- **log_return**: Log returns
-- **sma_5**: 5-day simple moving average
-- **sma_20**: 20-day simple moving average
-- **rsi_14**: 14-day Relative Strength Index
-- **vol_change**: Volume change percentage
+### Traditional ML
+- **Random Forest**: Ensemble of decision trees.
+- **XGBoost**: Efficient gradient boosting.
+- **Ridge Regression**: Linear model with L2 regularization.
 
-Plus 1 sentiment feature from news analysis = **7 total features**
+### Ensemble & Adaptive Systems
+- **Heterogeneous Stacking**: RF + XGBoost + Ridge fed into a meta-learner.
+- **Uncertainty Quantification**: Quantile regression for confidence intervals.
+- **Market Regime Detection**: HMM-based adaptive models.
+- **Sentiment Weighting**: Dynamic feature importance based on news volume.
 
-## Model
+### Deep Learning (PyTorch)
+- **LSTM**: Bidirectional LSTM for capturing sequential patterns.
+- **Transformer**: Multi-head attention mechanism for time-series.
+- **Temporal Fusion Transformer (TFT)**: Advanced architecture combining LSTM and attention.
 
-- **Algorithm**: Random Forest Regressor
-- **Pipeline**: StandardScaler → RandomForestRegressor
-- **Target**: Next-day return prediction
-- **Features**: 7 (6 technical + 1 sentiment)
+## 🧪 Testing
 
-## Configuration
-
-### NewsAPI Key
-
-Set your NewsAPI key (free at https://newsapi.org):
+A comprehensive test suite is included to ensure all components work correctly.
 
 ```bash
-export NEWSAPI_KEY="your_key_here"
+# Run all tests
+python src/utils/report_generator.py
 ```
 
-Or edit `src/config/settings.py`
+## ⚠️ Disclaimer
 
-## Usage Examples
+This project is for educational and research purposes only. Financial markets are volatile and unpredictable. Do not use this system for actual trading without extensive validation and professional advice.
 
-### Python API
+## 📄 License
 
-```python
-from src.models.predictor import Predictor
-from src.data.live_api import fetch_price_history
-from src.numerical.features import generate_features
+This project is licensed under the MIT License. See the `LICENSE` file for details.
 
-# Fetch data
-price_df = fetch_price_history("AAPL", period="30d", interval="1d")
+## 🤝 Contributing
 
-# Generate features
-features = generate_features(price_df)
-features['sentiment'] = 0.0  # Add sentiment
+Contributions are welcome! Please fork the repository and open a pull request.
 
-# Predict
-predictor = Predictor(model_path="models/AAPL_model.pkl")
-prediction = predictor.predict(features.tail(1))
-print(f"Predicted return: {prediction[0] * 100:.2f}%")
-```
+## 📧 Contact
 
-### REST API
-
-```bash
-# Start server
-uvicorn src.api.main:app --reload
-
-# Make prediction
-curl -X POST "http://localhost:8000/predict" \
-  -H "Content-Type: application/json" \
-  -d '{"symbol": "AAPL", "period": "30d"}'
-```
-
-## Dashboard Features
-
-### Simple Dashboard
-- Live price display
-- Candlestick charts
-- Model predictions (BUY/SELL/HOLD signals)
-- One-click model training
-
-### Enhanced Dashboard (Work in Progress)
-- Multi-tab interface
-- Backtesting with performance metrics
-- Automated report generation
-- Model performance visualization
-- Trading signals overlay
-
-## Performance Metrics
-
-The system tracks:
-- **R² Score**: Model fit quality
-- **MAE**: Mean Absolute Error
-- **Directional Accuracy**: % of correct predictions
-- **Sharpe Ratio**: Risk-adjusted returns (backtesting)
-- **Max Drawdown**: Largest peak-to-trough decline
-
-## Roadmap
-
-- [ ] Support for multiple stocks in one view
-- [ ] Real-time alerts via email/Telegram
-- [ ] Deep learning models (LSTM/Transformer)
-- [ ] Options pricing predictions
-- [ ] Portfolio optimization
-- [ ] Paper trading integration
-
-## Contributing
-
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open Pull Request
-
-## Disclaimer
-
-⚠️ **This is for educational purposes only.** 
-
-Do not use this system for actual trading without proper testing and risk management. Past performance does not guarantee future results. Always consult with a qualified financial advisor before making investment decisions.
-
-## License
-
-MIT License - see LICENSE file for details
-
-## Contact
-
-For questions or suggestions, open an issue on GitHub.
-
----
-
-**Happy Trading! 📈🚀**# stock-sentiment-predictor
+For questions or collaborations, please open an issue on GitHub.
